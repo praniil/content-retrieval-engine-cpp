@@ -1,5 +1,6 @@
 #include <iostream>
 #include <set>
+#include <vector>
 #include <string>
 
 std::set<std::string> STOP_WORDS = {
@@ -17,6 +18,11 @@ std::set<std::string> STOP_WORDS = {
     "only", "own", "same", "so", "than", "too", "very"
 };
 
+std::vector<std::string> PUNCTUATION = {
+    ".", ",", "?", "!", ";", ":", "'", "\"",
+    "(", ")", "[", "]", "{", "}",
+    "-", "—", "…"
+};
 
 void preprocess_text(std::string text){
     // text example -> I love Playing Cricket
@@ -31,11 +37,28 @@ void preprocess_text(std::string text){
             continue;
         }
     }
-    
+    std::cout << "before punctuation removal: " << std::endl;
+    std::cout << text << std::endl;    
+
+    //remove punctuations
+    for (int i = 0; i< text.length(); i++) {
+        for (int j = 0; j < PUNCTUATION.size(); j++) {
+            if (text[i] == PUNCTUATION[j][0]) {
+                text.erase(i, 1);
+                i--;
+                break;
+            }else {
+                continue;
+            }
+        }
+    }
+
+
+    std::cout << "after punctuation removal: " << std::endl;
     std::cout << text << std::endl;
     
 }
 
 int main() {
-    preprocess_text("AZZllo My name IS Pranil ParajULI and I AM CONVERTING upper case TO lOWER case");
+    preprocess_text("AZZllo???? My name IS Pranil[] ParajULI an!d I AM CONVERTING\" upper case TO lOWER case");
 }
