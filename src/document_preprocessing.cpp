@@ -2,6 +2,7 @@
 #include <set>
 #include <vector>
 #include <string>
+#include<sstream>
 
 std::set<std::string> STOP_WORDS = {
     "a", "an", "and", "the", "or", "of", "to", "in", "for", "on", "with",
@@ -56,7 +57,19 @@ void preprocess_text(std::string text){
 
     std::cout << "after punctuation removal: " << std::endl;
     std::cout << text << std::endl;
+
+    // tokenizer
+    std::vector<std::string> tokens;
+    std::stringstream ss(text);     //converthing the string into a stream, now we can extract words from it just like cin
+    std::string word;
     
+    while(ss >> word) {
+        tokens.push_back(word);
+    }
+    
+    for (const auto&w : tokens) {
+        std::cout << w << std::endl;
+    }
 }
 
 int main() {
