@@ -4,7 +4,7 @@
 #include <string>
 #include<sstream>
 
-std::set<std::string> STOP_WORDS = {
+std::vector<std::string> STOP_WORDS = {
     "a", "an", "and", "the", "or", "of", "to", "in", "for", "on", "with",
     "at", "by", "i", "you", "he", "she", "it", "we", "they", "me", "him",
     "her", "us", "them", "my", "your", "his", "its", "our", "their", "this",
@@ -67,11 +67,30 @@ void preprocess_text(std::string text){
         tokens.push_back(word);
     }
     
+    std::cout << "before removing the stop words" << std::endl;
+    for (const auto&w : tokens) {
+        std::cout << w << std::endl;
+    }
+
+    //remove the stop words
+    for (int i = 0; i < tokens.size(); i++){
+        for (int j = 0; j < STOP_WORDS.size(); j++) {
+            if (tokens[i] == STOP_WORDS[j]) {
+                tokens.erase(tokens.begin() + i);
+                i--;
+                break;
+            } else {
+                continue;
+            }
+        }
+    }
+
+    std::cout << "after removing the stop words" << std::endl;
     for (const auto&w : tokens) {
         std::cout << w << std::endl;
     }
 }
 
 int main() {
-    preprocess_text("AZZllo???? My name IS Pranil[] ParajULI an!d I AM CONVERTING\" upper case TO lOWER case");
+    preprocess_text("Hello my name is Pranil Parajuli and I am awesome and is the guy who is always open for learning");
 }
