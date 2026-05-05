@@ -25,6 +25,29 @@ std::vector<std::string> PUNCTUATION = {
     "-", "—", "…"
 };
 
+//simpleStemmer logic
+std::string simpleStemmer(std::string word) {
+    // 'ing', 'ly', 'ed', 'es', 's'
+    if (word.length() > 4) {
+        if (word.substr(word.length() - 3) == "ing") {
+            return word.substr(0, word.length() - 3);
+        }
+        if (word.substr(word.length() - 2 )== "ly") {
+            return word.substr(0, word.length() - 2);
+        }
+        if (word.substr(word.length() - 2 )== "ed") {
+            return word.substr(0, word.length() - 2);
+        }
+        if (word.substr(word.length() - 2 )== "es") {
+            return word.substr(0, word.length() - 2);
+        }
+        if (word.substr(word.length() - 1 )== "s") {
+            return word.substr(0, word.length() - 1);
+        }
+    }
+    return word;
+}
+
 void preprocess_text(std::string text){
     // text example -> I love Playing Cricket
     std::cout << text << std::endl;
@@ -53,7 +76,6 @@ void preprocess_text(std::string text){
             }
         }
     }
-
 
     std::cout << "after punctuation removal: " << std::endl;
     std::cout << text << std::endl;
@@ -89,8 +111,20 @@ void preprocess_text(std::string text){
     for (const auto&w : tokens) {
         std::cout << w << std::endl;
     }
+
+    std::vector<std::string> stemmedTokens;
+    // stemming the tokens
+    for (int i = 0; i < tokens.size(); i++) {
+        std::string stemmed_token = simpleStemmer(tokens[i]);
+        stemmedTokens.push_back(stemmed_token);
+    }
+    
+    std::cout << "stemmed tokens" << std::endl;
+    for (const auto&w : stemmedTokens) {
+        std::cout << w << std::endl;
+    } 
 }
 
 int main() {
-    preprocess_text("Hello my name is Pranil Parajuli and I am awesome and is the guy who is always open for learning");
+    preprocess_text("Hello my name is Pranil Parajuli is doing an amazing job and and and and and I am awesome and is the guy who is always open for learning");
 }
