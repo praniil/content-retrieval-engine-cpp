@@ -48,10 +48,7 @@ std::string simpleStemmer(std::string word) {
     return word;
 }
 
-void preprocess_text(std::string text){
-    // text example -> I love Playing Cricket
-    std::cout << text << std::endl;
-
+std::vector<std::string> preprocess_text(std::string text){
     //lowercase
     int length = text.length();
     for (int i = 0; i < length; i++){
@@ -61,8 +58,6 @@ void preprocess_text(std::string text){
             continue;
         }
     }
-    std::cout << "before punctuation removal: " << std::endl;
-    std::cout << text << std::endl;    
 
     //remove punctuations
     for (int i = 0; i< text.length(); i++) {
@@ -77,9 +72,6 @@ void preprocess_text(std::string text){
         }
     }
 
-    std::cout << "after punctuation removal: " << std::endl;
-    std::cout << text << std::endl;
-
     // tokenizer
     std::vector<std::string> tokens;
     std::stringstream ss(text);     //converthing the string into a stream, now we can extract words from it just like cin
@@ -89,11 +81,6 @@ void preprocess_text(std::string text){
         tokens.push_back(word);
     }
     
-    std::cout << "before removing the stop words" << std::endl;
-    for (const auto&w : tokens) {
-        std::cout << w << std::endl;
-    }
-
     //remove the stop words
     for (int i = 0; i < tokens.size(); i++){
         for (int j = 0; j < STOP_WORDS.size(); j++) {
@@ -107,11 +94,6 @@ void preprocess_text(std::string text){
         }
     }
 
-    std::cout << "after removing the stop words" << std::endl;
-    for (const auto&w : tokens) {
-        std::cout << w << std::endl;
-    }
-
     std::vector<std::string> stemmedTokens;
     // stemming the tokens
     for (int i = 0; i < tokens.size(); i++) {
@@ -119,12 +101,5 @@ void preprocess_text(std::string text){
         stemmedTokens.push_back(stemmed_token);
     }
     
-    std::cout << "stemmed tokens" << std::endl;
-    for (const auto&w : stemmedTokens) {
-        std::cout << w << std::endl;
-    } 
-}
-
-int main() {
-    preprocess_text("Hello my name is Pranil Parajuli is doing an amazing job and and and and and I am awesome and is the guy who is always open for learning");
+    return stemmedTokens;
 }
