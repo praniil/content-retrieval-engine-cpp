@@ -3,6 +3,7 @@
 #include<string>
 #include <unordered_map>
 #include"document_preprocessing.hpp"
+#include <fstream>
 
 std::unordered_map<std::string, std::vector<std::pair<int, std::vector<int>>>> build_inverted_index(std::vector<std::string>& documents) {
     // build inverted index 
@@ -60,7 +61,6 @@ int main(){
 
     // display inverted index
     for (auto& [word, postings] : index_dict) {
-
         std::cout << word << " -> ";
 
         for (auto& entry : postings) {
@@ -78,5 +78,30 @@ int main(){
         }
 
         std::cout << std::endl;
+    }
+    std::ofstream myFile("inverted_index.csv");
+
+    if (!myFile.is_open()) {
+        std::cerr << "Failed to open file!" << std::endl;
+        return 1;
+    }
+    myFile << "term, [docid,position]\n";
+    
+    for (auto& [word, postings] : index_dict) {
+        myFile << word << ",";
+
+        for (auto& entry : postings) {
+
+            int doc_id = entry.first;
+            std::vector<int>& positions = entry.second;
+
+            // myFile << doc_id << ",";
+
+            for (int pos : positions) {
+                myFile << doc_id << "," << pos << ",";
+            }
+        }
+
+        myFile << "\n";
     }
 }
