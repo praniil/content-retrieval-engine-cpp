@@ -58,37 +58,27 @@ int main() {
     std::cout << "Calculating TF-IDF values..." << std::endl;
     auto tfidf_table = calculate_tfidf(index, documents.size());
 
-    // Display some results
-    std::cout << "\nTF-IDF Sample Results (Top 5 terms for Doc 0):" << std::endl;
-    int doc_id = 0;
-    if (tfidf_table.count(doc_id)) {
-        // Sort terms by TF-IDF score for display
-        std::vector<std::pair<std::string, double>> sorted_terms(tfidf_table[doc_id].begin(), tfidf_table[doc_id].end());
-        std::sort(sorted_terms.begin(), sorted_terms.end(), [](const auto& a, const auto& b) {
-            return a.second > b.second;
-        });
+    // Display TF-IDF results for each document sequentially
+    for (size_t doc_id = 0; doc_id < documents.size(); ++doc_id) {
+        std::cout << "\nTF-IDF Results (Top terms for Doc " << doc_id << "):" << std::endl;
 
-        std::cout << std::left << std::setw(15) << "Term" << "Score" << std::endl;
-        std::cout << "---------------------------" << std::endl;
-        for (int i = 0; i < std::min(5, (int)sorted_terms.size()); ++i) {
-            std::cout << std::left << std::setw(15) << sorted_terms[i].first << std::fixed << std::setprecision(4) << sorted_terms[i].second << std::endl;
+        if (tfidf_table.count(static_cast<int>(doc_id))) {
+            std::vector<std::pair<std::string, double>> sorted_terms(tfidf_table.at(static_cast<int>(doc_id)).begin(), tfidf_table.at(static_cast<int>(doc_id)).end());
+            std::sort(sorted_terms.begin(), sorted_terms.end(), [](const auto& a, const auto& b) {
+                return a.second > b.second;
+            });
+
+            std::cout << std::left << std::setw(20) << "Term" << "Score" << std::endl;
+            std::cout << "---------------------------------------" << std::endl;
+            int top_n = std::min(10, (int)sorted_terms.size());
+            for (int i = 0; i < top_n; ++i) {
+                std::cout << std::left << std::setw(20) << sorted_terms[i].first << std::fixed << std::setprecision(4) << sorted_terms[i].second << std::endl;
+            }
+        } else {
+            std::cout << "No terms found for this document." << std::endl;
         }
     }
 
-    std::cout << "\nTF-IDF Sample Results (Top 5 terms for Doc 3):" << std::endl;
-    doc_id = 3;
-    if (tfidf_table.count(doc_id)) {
-        std::vector<std::pair<std::string, double>> sorted_terms(tfidf_table[doc_id].begin(), tfidf_table[doc_id].end());
-        std::sort(sorted_terms.begin(), sorted_terms.end(), [](const auto& a, const auto& b) {
-            return a.second > b.second;
-        });
-
-        std::cout << std::left << std::setw(15) << "Term" << "Score" << std::endl;
-        std::cout << "---------------------------" << std::endl;
-        for (int i = 0; i < std::min(5, (int)sorted_terms.size()); ++i) {
-            std::cout << std::left << std::setw(15) << sorted_terms[i].first << std::fixed << std::setprecision(4) << sorted_terms[i].second << std::endl;
-        }
-    }
 
     return 0;
 }
