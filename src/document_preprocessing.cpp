@@ -59,7 +59,7 @@ std::vector<std::string> preprocess_text(std::string text){
         }
     }
 
-    //remove punctuations
+     //remove punctuations
     for (int i = 0; i< text.length(); i++) {
         for (int j = 0; j < PUNCTUATION.size(); j++) {
             if (text[i] == PUNCTUATION[j][0]) {
@@ -103,3 +103,20 @@ std::vector<std::string> preprocess_text(std::string text){
     
     return stemmedTokens;
 }
+
+#ifndef BUILD_AS_LIB
+int main() {
+    std::string sample_text = "Natural Language Processing is about cleaning text, removeing punctuation, and stemming words.";
+
+    std::cout << "Original text: " << sample_text << std::endl;
+
+    std::vector<std::string> processed_tokens = preprocess_text(sample_text);
+
+    std::cout << "Processed tokens:" << std::endl;
+    for (const auto& token : processed_tokens) {
+        std::cout << token << std::endl;
+    }
+
+    return 0;
+}
+#endif
